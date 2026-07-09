@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white fw-bold py-3">
+                <i class="bi bi-person-plus-fill me-2"></i>Cadastrar Novo Paciente
+            </div>
+            <div class="card-body p-4">
+                <form action="/pacientes/cadastrar" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nome Completo</label>
+                        <input type="text" name="nome" class="form-control" placeholder="Ex: João Silva" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">CPF</label>
+                        <input type="text" name="cpf" class="form-control" placeholder="000.000.000-00" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Telefone</label>
+                        <input type="text" name="telefone" class="form-control" placeholder="(31) 99999-0000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tipo Sanguíneo</label>
+                        <select name="tipo_sanguineo" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="A+">A+</option><option value="A-">A-</option>
+                            <option value="B+">B+</option><option value="B-">B-</option>
+                            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                            <option value="O+">O+</option><option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Data de Nascimento</label>
+                        <input type="date" name="data_nascimento" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Sexo</label>
+                        <select name="sexo" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Feminino</option>
+                            <option value="O">Outro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 fw-bold py-2">
+                        <i class="bi bi-check-circle-fill me-2"></i>Salvar Paciente
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white fw-bold py-3">
+                <i class="bi bi-table me-2"></i>Pacientes Cadastrados
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-3">ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Sangue</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for paciente in lista %}
+                            <tr>
+                                <td class="ps-3 text-muted fw-bold">#{{ paciente[0] }}</td>
+                                <td class="fw-semibold text-dark">{{ paciente[1] }}</td>
+                                <td>{{ paciente[2] }}</td>
+                                <td>{{ paciente[3] }}</td>
+                                <td><span class="badge bg-danger px-2 py-2">{{ paciente[4] }}</span></td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="/pacientes/editar/{{ paciente[0] }}" class="btn btn-outline-primary">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a href="/pacientes/excluir/{{ paciente[0] }}" 
+                                           class="btn btn-outline-danger" 
+                                           onclick="return confirm('Tem certeza que deseja excluir?')">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
